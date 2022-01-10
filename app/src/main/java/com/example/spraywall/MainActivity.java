@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView problem;
     Button toLibrary, addProblem;
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    DbBitmapUtility image_converter = new DbBitmapUtility();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                         R.mipmap.wayup);
 
-                boolean insert_status = databaseHelper.insertData(image_converter.getBytes(icon));
+                boolean insert_status = databaseHelper.insertData(getBytes(icon));
 
 
                 // Alert user about the status of the added problem
@@ -71,20 +69,17 @@ public class MainActivity extends AppCompatActivity {
         activity.startActivity(intent);
     }
 
-    // Helper class for converting image to bytes and back to Bitmap
-    public static class DbBitmapUtility {
-
-        // convert from bitmap to byte array
-        public byte[] getBytes(Bitmap bitmap) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-            return stream.toByteArray();
-        }
-
-        // convert from byte array to bitmap
-        public Bitmap getImage(byte[] image) {
-            return BitmapFactory.decodeByteArray(image, 0, image.length);
-        }
+    // Helper function to convert from bitmap to byte array
+    public byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
     }
+
+    // Helper function to convert from byte array to bitmap
+    public Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
 
 }
